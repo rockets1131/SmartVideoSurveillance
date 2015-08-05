@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">智能视频监控</string>
+    <string name="user_name">账号</string>
+    <string name="action_settings">Settings</string>
+    <string name="password">密码</string>
+
+    <color name="stroke">#c8cacf</color>
+
+    <string name="login">登    录</string>
+    <string name="system_info">智能视频监控系统</string>
+    <string name="copyright_info">北京邮电大学 物联网中心</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="log">日 志</string>
+    <string name="video">视 频</string>
+    <string name="title_activity_log">LogActivity</string>
+    <string name="title_activity_video">VideoActivity</string>
+    <string name="tv_connect_cam">正在连接摄像头……</string>
+    <string name="tv_connect_cam_error">无法连接，请确认摄像头是否开启。</string>
+    <string name="title_activity_video_fs">VideoFSActivity</string>
+    <string name="title_activity_input">InputActivity</string>
+    <string name="title_activity_pic_scan">PicScanActivity</string>
+    <string name="title_activity_unusual">UnusualActivity</string>
+    <string name="title_activity_ori_pic">OriPicActivity</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pull_to_refresh">下拉可以刷新</string>
+    <string name="release_to_refresh">松开可以刷新</string>
+    <string name="lastUpdateTime">最近更新：%s</string>
+    <string name="load_full">已加载全部</string>
+    <string name="no_data">暂无数据</string>
+    <string name="more">加载中</string>
+
+</resources>

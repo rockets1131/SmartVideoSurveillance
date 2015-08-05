@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.liutianjiao.smartvideosurveillance.UnusualFragment">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#6699ff">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:text="异常事件"
+            android:textColor="#c8cacf"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/title_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <com.liutianjiao.smartvideosurveillance.widget.AutoListView
+        android:id="@+id/unusual_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dip"
+        android:divider="#bfbfbf"
+        android:dividerHeight="0.5dp"
+        android:padding="10dip" />
+
+    <ImageView
+        android:id="@+id/nodata"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/nodata"
+        android:visibility="gone" />
+
+</LinearLayout>

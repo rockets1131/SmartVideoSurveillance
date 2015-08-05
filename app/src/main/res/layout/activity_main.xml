@@ -1,0 +1,51 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_gravity="bottom"
+        android:background="@drawable/function_bar">
+
+        <TextView
+            android:id="@+id/map"
+            android:layout_width="50dip"
+            android:layout_height="48dip"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="50dip"
+            android:drawableTop="@drawable/map_normal"
+            android:gravity="center"
+            android:text="分布"
+            android:textColor="#a9a9a9"
+            android:textSize="11dip" />
+        <Button
+            android:id = "@+id/add"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/add_selector"
+            />
+
+        <TextView
+            android:id="@+id/unusual"
+            android:layout_width="50dip"
+            android:layout_height="48dip"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dip"
+            android:drawableTop="@drawable/unusual_normal"
+            android:gravity="center"
+            android:text="异常"
+            android:textColor="#a9a9a9"
+            android:textSize="11dip" />
+    </RelativeLayout>
+</FrameLayout>
