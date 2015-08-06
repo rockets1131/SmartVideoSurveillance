@@ -37,6 +37,7 @@ import com.android.volley.toolbox.HurlStack;
  */
 public class MultiPartStack extends HurlStack {
 	@SuppressWarnings("unused")
+
 	private static final String TAG = MultiPartStack.class.getSimpleName();
     private final static String HEADER_CONTENT_TYPE = "Content-Type";
 	
