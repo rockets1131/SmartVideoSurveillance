@@ -4,6 +4,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 
 import org.apache.http.HttpEntity;
@@ -18,16 +19,16 @@ import java.util.Map;
 /**
  * Created by rockets1131 on 2015/8/7.
  */
-public abstract class MultipartRequest extends Request<String> {
+public class MultipartRequest extends Request<String> {
 
     private final Listener mListener;
     private HttpEntity mEntity;
 
-    public MultipartRequest(String url, Listener listener, Response.ErrorListener errorListener) {
+    public MultipartRequest(String url, Listener listener, ErrorListener errorListener, HttpEntity httpEntity) {
         super(Method.POST, url, errorListener);
 
         mListener = listener;
-        mEntity = getHttpEntity();
+        mEntity = httpEntity;
     }
 
     @Override
@@ -52,8 +53,6 @@ public abstract class MultipartRequest extends Request<String> {
         }
         return baos.toByteArray();
     }
-
-    public abstract HttpEntity getHttpEntity();
 
     @Override
     protected Response parseNetworkResponse(NetworkResponse response) {
