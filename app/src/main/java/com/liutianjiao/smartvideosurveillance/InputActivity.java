@@ -1,6 +1,7 @@
 package com.liutianjiao.smartvideosurveillance;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,7 +24,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.MultipartRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.liutianjiao.smartvideosurveillance.base.Config;
+import com.liutianjiao.smartvideosurveillance.data.SingleRequestQueue;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,10 +50,13 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InputActivity extends Activity {
+    private RequestQueue rQueue;
+    private Context context;
     private final int IMAGE_CODE = 0, SCAN_CODE = 1, CAMERA_CODE = 2;
     private final int MIN_SIZE = 150;
     private Button addPicture, openCamera, uploadComplete, back;
@@ -61,6 +72,7 @@ public class InputActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
+        context = getBaseContext();
         buttonListener = new FunctionButtonListener();
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(buttonListener);
@@ -78,6 +90,7 @@ public class InputActivity extends Activity {
         contentText = (EditText) findViewById(R.id.content);
         image3.setOnClickListener(buttonListener);
         uploadProgress = (ProgressBar) findViewById(R.id.upload_progress);
+        rQueue = SingleRequestQueue.getRequestQueue(context);
     }
 
     @Override
@@ -86,7 +99,7 @@ public class InputActivity extends Activity {
             String path = null;
             try {
                 Uri uri = data.getData(); // 获得图片的url
-                if(isKitKat) {
+                if (isKitKat) {
                     String wholeID = DocumentsContract.getDocumentId(uri);
                     String id = wholeID.split(":")[1];
                     String[] column = {MediaStore.Images.Media.DATA};
@@ -172,20 +185,20 @@ public class InputActivity extends Activity {
 
     private Bitmap getPreview(String path) {
         BitmapFactory.Options options = new BitmapFactory.Options();
-         //options.inJustDecodeBounds = false;
+        //options.inJustDecodeBounds = false;
         options.inJustDecodeBounds = true;
         Bitmap bmp = BitmapFactory.decodeFile(path);
 
         //if (options.outWidth >= MIN_SIZE && options.outHeight >= MIN_SIZE) {
-            //options.inJustDecodeBounds = false;
-            Bitmap newbmp = ThumbnailUtils.extractThumbnail(bmp, MIN_SIZE, MIN_SIZE);
-            return newbmp;
+        //options.inJustDecodeBounds = false;
+        Bitmap newbmp = ThumbnailUtils.extractThumbnail(bmp, MIN_SIZE, MIN_SIZE);
+        return newbmp;
 
         //} else
-           // return null;
+        // return null;
     }
 
-    private String upLoadData(List<String> pathList, String url)
+    /*private String upLoadData(List<String> pathList, String url)
             throws ClientProtocolException, IOException {
         String result = null;
         HttpPost httppost = new HttpPost(url);
@@ -219,9 +232,61 @@ public class InputActivity extends Activity {
 
         httpclient.getConnectionManager().shutdown();
         return result;
+    }*/
+
+    private void Upload() {
+        MultipartRequest request = new MultipartRequest(Config.WEB_ADDRESS + "unusual.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        uploadProgress.setVisibility(View.GONE);
+                        uploadComplete.setText("完成");
+                        uploadComplete.setClickable(true);
+                        Intent intent = new Intent(InputActivity.this,
+                                MainActivity.class);
+                        intent.putExtra("userName", Config.USER_NAME);
+                        startActivity(intent);
+                        //finish();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                uploadProgress.setVisibility(View.GONE);
+                uploadComplete.setText("完成");
+                uploadComplete.setClickable(true);
+                Config.NETWORK_STATUS = Config.NETWORK_ERROR;
+                Toast.makeText(getBaseContext(), "网络错误，上传失败。", Toast.LENGTH_SHORT).show();
+            }
+        }, getHttpEntity()
+        ) {
+        };
+        uploadProgress.setVisibility(View.VISIBLE);
+        uploadComplete.setText("上传中");
+        uploadComplete.setClickable(false);
+        rQueue.add(request);
     }
 
-    private class UploadTask extends AsyncTask<String, Process, String> {
+    private HttpEntity getHttpEntity() {
+        ContentType contentType = ContentType.create(HTTP.PLAIN_TEXT_TYPE,
+                HTTP.UTF_8);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.addTextBody("picnum", String.valueOf(pathList.size()),
+                contentType);
+        builder.addTextBody("user_name", "admin", contentType);
+        //builder.addTextBody("user_name", Config.USER_NAME, contentType);
+        String content = contentText.getText().toString();
+        if (!content.isEmpty())
+            builder.addTextBody("content", content, contentType);
+        for (int i = 0; i < pathList.size(); i++) {
+            File file = new File(pathList.get(i));
+            FileBody fileBody = new FileBody(file);
+            builder.addPart("picture" + String.valueOf(i), fileBody);
+        }
+        return builder.build();
+    }
+
+    /*private class UploadTask extends AsyncTask<String, Process, String> {
         @Override
         protected void onPreExecute() {
             uploadProgress.setVisibility(View.VISIBLE);
@@ -233,7 +298,7 @@ public class InputActivity extends Activity {
         protected String doInBackground(String... urlAdress) {
             String result = null;
             try {
-                result = upLoadData(pathList, urlAdress[0]);
+                //result = upLoadData(pathList, urlAdress[0]);
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -255,7 +320,7 @@ public class InputActivity extends Activity {
             startActivity(intent);
             finish();
         }
-    }
+    }*/
 
     class FunctionButtonListener implements OnClickListener {
 
@@ -281,13 +346,15 @@ public class InputActivity extends Activity {
                     break;
                 }
                 case R.id.complete: {
-                    if(Config.NETWORK_STATUS == Config.NETWORK_ERROR)
-                        Toast.makeText(getBaseContext(), "网络未连接，无法上传。", Toast.LENGTH_SHORT).show();
+                    Upload();
+                    /*if (Config.NETWORK_STATUS == Config.NETWORK_ERROR)
+                        Toast.makeText(context, "网络未连接，无法上传。", Toast.LENGTH_SHORT).show();
 
                     else {
-                        UploadTask task = new UploadTask();
-                        task.execute(Config.WEB_ADDRESS + "unusual.php");
-                    }
+                        //Upload();
+                        //UploadTask task = new UploadTask();
+                        //task.execute(Config.WEB_ADDRESS + "unusual.php");
+                    }*/
                     break;
                 }
                 case R.id.temp_pic1: {

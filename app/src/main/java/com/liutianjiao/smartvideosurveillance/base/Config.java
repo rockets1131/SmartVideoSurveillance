@@ -4,7 +4,7 @@ import com.liutianjiao.smartvideosurveillance.data.DeviceData;
 
 
 final public class Config {
-    public static final String WEB_ADDRESS = "http://10.103.242.89/Monitor/";
+    public static final String WEB_ADDRESS = "http://10.210.100.231/Monitor/";
     public static int NETWORK_STATUS;
     public static final int NETWORK_ERROR = 1;
     public static final int NETWORK_SUCCESS = 0;
