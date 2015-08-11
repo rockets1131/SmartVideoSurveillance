@@ -193,46 +193,7 @@ public class InputActivity extends Activity {
         //options.inJustDecodeBounds = false;
         Bitmap newbmp = ThumbnailUtils.extractThumbnail(bmp, MIN_SIZE, MIN_SIZE);
         return newbmp;
-
-        //} else
-        // return null;
     }
-
-    /*private String upLoadData(List<String> pathList, String url)
-            throws ClientProtocolException, IOException {
-        String result = null;
-        HttpPost httppost = new HttpPost(url);
-        httppost.addHeader("charset", "UTF-8");
-        httppost.addHeader(HTTP.CHARSET_PARAM, HTTP.UTF_8);
-        ContentType contentType = ContentType.create(HTTP.PLAIN_TEXT_TYPE,
-                HTTP.UTF_8);
-
-        HttpClient httpclient = new DefaultHttpClient();
-        httpclient.getParams().setParameter(
-                CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        builder.addTextBody("picnum", String.valueOf(pathList.size()),
-                contentType);
-        builder.addTextBody("user_name", Config.USER_NAME, contentType);
-        String content = contentText.getText().toString();
-        if (!content.isEmpty())
-            builder.addTextBody("content", content, contentType);
-        for (int i = 0; i < pathList.size(); i++) {
-            File file = new File(pathList.get(i));
-            FileBody fileBody = new FileBody(file);
-            builder.addPart("picture" + String.valueOf(i), fileBody);
-        }
-        HttpEntity entity = builder.build();
-        httppost.setEntity(entity);
-        HttpResponse response = httpclient.execute(httppost);
-        HttpEntity resEntity = response.getEntity();
-        if (resEntity != null)
-            result = EntityUtils.toString(resEntity);
-
-        httpclient.getConnectionManager().shutdown();
-        return result;
-    }*/
 
     private void Upload() {
         MultipartRequest request = new MultipartRequest(Config.WEB_ADDRESS + "unusual.php",
@@ -286,42 +247,6 @@ public class InputActivity extends Activity {
         return builder.build();
     }
 
-    /*private class UploadTask extends AsyncTask<String, Process, String> {
-        @Override
-        protected void onPreExecute() {
-            uploadProgress.setVisibility(View.VISIBLE);
-            uploadComplete.setText("上传中");
-            uploadComplete.setClickable(false);
-        }
-
-        @Override
-        protected String doInBackground(String... urlAdress) {
-            String result = null;
-            try {
-                //result = upLoadData(pathList, urlAdress[0]);
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            uploadProgress.setVisibility(View.GONE);
-            uploadComplete.setText("完成");
-            uploadComplete.setClickable(true);
-            Intent intent = new Intent(InputActivity.this,
-                    MainActivity.class);
-            intent.putExtra("userName", Config.USER_NAME);
-            startActivity(intent);
-            finish();
-        }
-    }*/
-
     class FunctionButtonListener implements OnClickListener {
 
         @Override
@@ -347,14 +272,6 @@ public class InputActivity extends Activity {
                 }
                 case R.id.complete: {
                     Upload();
-                    /*if (Config.NETWORK_STATUS == Config.NETWORK_ERROR)
-                        Toast.makeText(context, "网络未连接，无法上传。", Toast.LENGTH_SHORT).show();
-
-                    else {
-                        //Upload();
-                        //UploadTask task = new UploadTask();
-                        //task.execute(Config.WEB_ADDRESS + "unusual.php");
-                    }*/
                     break;
                 }
                 case R.id.temp_pic1: {
