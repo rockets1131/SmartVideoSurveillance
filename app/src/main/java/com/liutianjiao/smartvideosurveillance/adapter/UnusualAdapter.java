@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.liutianjiao.smartvideosurveillance.R;
-import com.liutianjiao.smartvideosurveillance.base.Config;
 import com.liutianjiao.smartvideosurveillance.data.LruImageCache;
 import com.liutianjiao.smartvideosurveillance.data.SingleRequestQueue;
 import com.liutianjiao.smartvideosurveillance.data.Unusual;
